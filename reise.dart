@@ -61,8 +61,12 @@ void main() {
     ['Nr.', 'Transportmittel']
   ];
   for (int i = 0; i < Transportmittel.values.length; i++) {
-    String name = Transportmittel.values[i].name;
-    if (name == 'zuFuss') name = 'zu Fuß';
+    String originalName = Transportmittel.values[i].name;
+    String name = originalName == 'zuFuss'
+        ? 'zu Fuß'
+        : originalName[0].toUpperCase() +
+            originalName.substring(
+                1); //Großschreibung der Anfangsbuchstaben in der Tabelle
     transportDaten.add([(i + 1).toString(), name]);
   }
 
