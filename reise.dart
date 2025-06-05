@@ -191,7 +191,7 @@ void main() {
 
   // Abschiedsgruß
   var gruen = AnsiPen()..green(bold: true);
-  var blau = AnsiPen()..blue(bold: true);
+  var white = AnsiPen()..white(bold: true);
   print('\n' + gruen('Gute Reise! 🌍'));
-  print(blau('Und viel Spaß beim Besuchen deiner Freunde!'));
+  print(white('Und viel Spaß beim Besuchen deiner Freunde!'));
 }
