@@ -1,7 +1,6 @@
 import 'dart:io';
 import 'package:ansicolor/ansicolor.dart';
 
-// Enum für die Reiseroute
 enum Transportmittel { auto, zug, fahrrad, bus, zuFuss }
 
 // Hilfsfunktion für farbige Balken
@@ -18,8 +17,27 @@ AnsiPen farbeFuerDistanz(int distanz) {
   return AnsiPen()..green();
 }
 
+// Hilfsfunktion: Tabelle drucken mit festen Spalten
+void druckeTabelle(List<List<String>> daten, List<int> spaltenBreiten) {
+  String zeilenTrenner() =>
+      '+' + spaltenBreiten.map((b) => '-' * b).join('+') + '+';
+
+  print(zeilenTrenner());
+
+  for (int i = 0; i < daten.length; i++) {
+    List<String> zeile = daten[i];
+    String zeileText = '|';
+    for (int j = 0; j < spaltenBreiten.length; j++) {
+      String zellenInhalt = j < zeile.length ? zeile[j] : '';
+      // Zelle linksbündig auffüllen
+      zeileText += ' ' + zellenInhalt.padRight(spaltenBreiten[j] - 1) + '|';
+    }
+    print(zeileText);
+    print(zeilenTrenner());
+  }
+}
+
 void main() {
-  // Reiseroute mit Distanzen in km
   Map<String, int> reiseroute = {
     "Max": 120,
     "Peter": 90,
@@ -27,13 +45,18 @@ void main() {
     "Lena": 180,
   };
 
-  // Menü-Auswahl Transportmittel
-  print('--- Transportmittel Auswahl ---');
+  // Tabelle Transportmittel vorbereiten
+  List<List<String>> transportDaten = [
+    ['Nr.', 'Transportmittel']
+  ];
   for (int i = 0; i < Transportmittel.values.length; i++) {
     String name = Transportmittel.values[i].name;
     if (name == 'zuFuss') name = 'zu Fuß';
-    print('${i + 1}. $name');
+    transportDaten.add([(i + 1).toString(), name]);
   }
+
+  print('--- Transportmittel Auswahl ---');
+  druckeTabelle(transportDaten, [5, 20]);
 
   int? auswahl;
   do {
@@ -79,12 +102,18 @@ void main() {
           ? defaultGeschwindigkeit
           : (int.tryParse(geschwindigkeitInput) ?? defaultGeschwindigkeit);
 
-  // Freunde-Auswahl: mehrere Freunde möglich
-  print('\n--- Freunde Auswahl ---');
+  // Tabelle Freunde vorbereiten
   List<String> freunde = reiseroute.keys.toList();
+  List<List<String>> freundeDaten = [
+    ['Nr.', 'Name', 'Entfernung (km)']
+  ];
   for (int i = 0; i < freunde.length; i++) {
-    print('${i + 1}. ${freunde[i]}');
+    freundeDaten.add(
+        [(i + 1).toString(), freunde[i], reiseroute[freunde[i]]!.toString()]);
   }
+
+  print('\n--- Freunde Auswahl ---');
+  druckeTabelle(freundeDaten, [5, 15, 15]);
 
   List<int> ausgewaehlteIndizes = [];
   do {
@@ -102,7 +131,7 @@ void main() {
           alleGueltig = false;
           break;
         }
-        tempIndizesSet.add(index - 1); // Verhindert Duplikate
+        tempIndizesSet.add(index - 1); // Duplikate verhindern
       }
       if (alleGueltig && tempIndizesSet.isNotEmpty) {
         ausgewaehlteIndizes = tempIndizesSet.toList();
@@ -114,16 +143,14 @@ void main() {
 
   // Ausgabe nach Entfernung sortieren
   ausgewaehlteIndizes.sort(
-    (a, b) => reiseroute[freunde[a]]!.compareTo(reiseroute[freunde[b]]!),
-  );
+      (a, b) => reiseroute[freunde[a]]!.compareTo(reiseroute[freunde[b]]!));
 
-  // Fahrzeit berechnen und Ausgabe für ausgewählte Freunde
+  // Ergebnisse anzeigen (mit Balken wie vorher)
   double gesamtZeit = 0;
   int gesamtKm = 0;
 
   print("\n--- Ergebnisse ---");
 
-  // Maximalwert für Balken-Länge berechnen (für Skalierung)
   int maxDistanz = 0;
   for (var idx in ausgewaehlteIndizes) {
     int dist = reiseroute[freunde[idx]]!;
@@ -149,6 +176,5 @@ void main() {
   print("\nGesamtdistanz: $gesamtKm km");
   print("Gesamtfahrzeit: ${gesamtZeit.toStringAsFixed(2)} h");
   print(
-    "Transportmittel: ${mittelName[0].toUpperCase()}${mittelName.substring(1)}",
-  );
+      "Transportmittel: ${mittelName[0].toUpperCase()}${mittelName.substring(1)}");
 }
