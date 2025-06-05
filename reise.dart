@@ -179,17 +179,24 @@ void main() {
     gesamtZeit += zeit;
     gesamtKm += distanz;
 
+    int stunden = zeit.floor();
+    int minuten = ((zeit - stunden) * 60).round();
+
     int balkenLaenge = ((distanz / maxDistanz) * 40).round();
     AnsiPen pen = farbeFuerDistanz(distanz);
     String balken = erstelleFarbigenBalken(balkenLaenge, pen);
 
     print(
-      "$name: Entfernung = $distanz km $balken Fahrzeit = ${zeit.toStringAsFixed(2)} h",
+      "$name: Entfernung = $distanz km $balken Fahrzeit = ${stunden} h ${minuten} min",
     );
   }
 
+  int gesamtStunden = gesamtZeit.floor();
+  int gesamtMinuten = ((gesamtZeit - gesamtStunden) * 60).round();
+
   print("\nGesamtdistanz: $gesamtKm km");
-  print("Gesamtfahrzeit: ${gesamtZeit.toStringAsFixed(2)} h");
+  print("Gesamtfahrzeit: ${gesamtStunden} h ${gesamtMinuten} min");
+
   print(
       "Transportmittel: ${mittelName[0].toUpperCase()}${mittelName.substring(1)}");
 
