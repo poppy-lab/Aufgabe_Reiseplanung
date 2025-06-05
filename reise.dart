@@ -24,17 +24,28 @@ void druckeTabelle(List<List<String>> daten, List<int> spaltenBreiten) {
 
   print(zeilenTrenner());
 
-  for (int i = 0; i < daten.length; i++) {
+  // Überschrift fett und invertiert (weißer Text auf schwarzem Grund)
+  var penBold = AnsiPen()..white(bg: true);
+  List<String> header = daten[0];
+  String headerText = '|';
+  for (int j = 0; j < spaltenBreiten.length; j++) {
+    headerText +=
+        ' ' + penBold(header[j].padRight(spaltenBreiten[j] - 1)) + '|';
+  }
+  print(headerText);
+  print(zeilenTrenner());
+
+  // Datenzeilen ohne Trenner dazwischen, nur am Ende
+  for (int i = 1; i < daten.length; i++) {
     List<String> zeile = daten[i];
     String zeileText = '|';
     for (int j = 0; j < spaltenBreiten.length; j++) {
       String zellenInhalt = j < zeile.length ? zeile[j] : '';
-      // Zelle linksbündig auffüllen
       zeileText += ' ' + zellenInhalt.padRight(spaltenBreiten[j] - 1) + '|';
     }
     print(zeileText);
-    print(zeilenTrenner());
   }
+  print(zeilenTrenner());
 }
 
 void main() {
