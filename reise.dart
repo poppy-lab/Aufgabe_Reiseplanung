@@ -188,4 +188,10 @@ void main() {
   print("Gesamtfahrzeit: ${gesamtZeit.toStringAsFixed(2)} h");
   print(
       "Transportmittel: ${mittelName[0].toUpperCase()}${mittelName.substring(1)}");
+
+  // Abschiedsgruß
+  var gruen = AnsiPen()..green(bold: true);
+  var blau = AnsiPen()..blue(bold: true);
+  print('\n' + gruen('Gute Reise! 🌍'));
+  print(blau('Und viel Spaß beim Besuchen deiner Freunde!'));
 }
