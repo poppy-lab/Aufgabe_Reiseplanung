@@ -1,0 +1,21 @@
+{
+  "roots": [
+    "reise"
+  ],
+  "packages": [
+    {
+      "name": "reise",
+      "version": "0.0.0",
+      "dependencies": [
+        "ansicolor"
+      ],
+      "devDependencies": []
+    },
+    {
+      "name": "ansicolor",
+      "version": "2.0.3",
+      "dependencies": []
+    }
+  ],
+  "configVersion": 1
+}
