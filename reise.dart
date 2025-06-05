@@ -1,6 +1,10 @@
 import 'dart:io';
 import 'package:ansicolor/ansicolor.dart';
 
+void clearScreen() {
+  print(Process.runSync("clear", [], runInShell: true).stdout); //Clean
+}
+
 enum Transportmittel { auto, zug, fahrrad, bus, zuFuss }
 
 // Hilfsfunktion für farbige Balken
@@ -70,6 +74,7 @@ void main() {
     transportDaten.add([(i + 1).toString(), name]);
   }
 
+  clearScreen(); //clean Screen vor Print
   print('--- Transportmittel Auswahl ---');
   druckeTabelle(transportDaten, [5, 20]);
 
@@ -127,6 +132,7 @@ void main() {
         [(i + 1).toString(), freunde[i], reiseroute[freunde[i]]!.toString()]);
   }
 
+  clearScreen();
   print('\n--- Freunde Auswahl ---');
   druckeTabelle(freundeDaten, [5, 15, 15]);
 
@@ -164,6 +170,7 @@ void main() {
   double gesamtZeit = 0;
   int gesamtKm = 0;
 
+  clearScreen(); //clean Screen vor Print
   print("\n--- Ergebnisse ---");
 
   int maxDistanz = 0;
@@ -187,7 +194,7 @@ void main() {
     String balken = erstelleFarbigenBalken(balkenLaenge, pen);
 
     print(
-      "$name: Entfernung = $distanz km $balken Fahrzeit = ${stunden} h ${minuten} min",
+      "$name: Entfernung = $distanz km $balken Fahrzeit = ${stunden} h ${minuten} min", //Zeitausgabe in Stunden und Minuten
     );
   }
 
